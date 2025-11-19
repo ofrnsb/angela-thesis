@@ -2,6 +2,18 @@ import React from 'react';
 import './SmartContractViewer.css';
 
 function SmartContractViewer({ contractCode, transactionType, onClose }) {
+  const getTransactionTypeLabel = (type) => {
+    const labels = {
+      'createAccount': 'Pembuatan Rekening',
+      'deposit': 'Deposit',
+      'withdraw': 'Penarikan',
+      'transferInternal': 'Transfer Antar Rekening (Sesama Bank)',
+      'transferExternal': 'Transfer Antar Bank',
+      'purchaseProduct': 'Pembelian Produk'
+    };
+    return labels[type] || type;
+  };
+
   return (
     <div className="contract-viewer-overlay" onClick={onClose}>
       <div className="contract-viewer-modal" onClick={(e) => e.stopPropagation()}>
@@ -11,7 +23,7 @@ function SmartContractViewer({ contractCode, transactionType, onClose }) {
         </div>
         <div className="contract-viewer-content">
           <div className="transaction-type-badge">
-            Tipe Transaksi: {transactionType}
+            Tipe Transaksi: {getTransactionTypeLabel(transactionType)}
           </div>
           <pre className="contract-code">
             <code>{contractCode}</code>
