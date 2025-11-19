@@ -1,10 +1,6 @@
-name: Deploy to GitHub Pages
+name: (disabled) Deploy frontend to GitHub Pages
 
 on:
-  push:
-    branches:
-      - main
-      - master
   workflow_dispatch:
 
 permissions:
@@ -13,8 +9,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
-  cancel-in-progress: false
+  group: 'pages-disabled'
+  cancel-in-progress: true
 
 jobs:
   build:
