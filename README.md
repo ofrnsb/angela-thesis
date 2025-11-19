@@ -25,21 +25,21 @@ Sistem perbankan sederhana berbasis blockchain menggunakan smart contract untuk 
 **Skenario:**
 - Budi memiliki rekening di Bank Mandiri dengan nomor rekening "1234567890"
 - Siti memiliki rekening di Bank Mandiri dengan nomor rekening "0987654321"
-- Budi ingin transfer 0.5 ETH ke rekening Siti
+- Budi ingin transfer Rp 500.000 ke rekening Siti
 
 **Implementasi:**
 ```solidity
 transferInternal(
     "1234567890",      // Rekening pengirim
     "0987654321",      // Rekening penerima
-    0.5 ether,         // Jumlah transfer
+    500000,            // Jumlah transfer dalam Rupiah
     "Pembayaran tagihan" // Deskripsi
 )
 ```
 
 **Hasil:**
-- Saldo Budi berkurang 0.5 ETH
-- Saldo Siti bertambah 0.5 ETH
+- Saldo Budi berkurang Rp 500.000
+- Saldo Siti bertambah Rp 500.000
 - Transaksi tercatat di blockchain dan tidak dapat diubah
 
 ### 1.2 Transfer Antar Bank
@@ -47,7 +47,7 @@ transferInternal(
 **Skenario:**
 - Budi memiliki rekening di Bank Mandiri (kode: BM)
 - Siti memiliki rekening di Bank BCA (kode: BCA)
-- Budi ingin transfer 1 ETH ke rekening Siti di Bank BCA
+- Budi ingin transfer Rp 1.000.000 ke rekening Siti di Bank BCA
 
 **Implementasi:**
 ```solidity
@@ -55,20 +55,20 @@ transferExternal(
     "1234567890",      // Rekening pengirim (BM)
     "BCA",             // Kode bank tujuan
     "1111111111",      // Rekening penerima (BCA)
-    1 ether,           // Jumlah transfer
+    1000000,           // Jumlah transfer dalam Rupiah
     "Transfer gaji"    // Deskripsi
 )
 ```
 
 **Hasil:**
-- Saldo Budi di Bank Mandiri berkurang 1 ETH
+- Saldo Budi di Bank Mandiri berkurang Rp 1.000.000
 - Sistem mencatat transfer ke Bank BCA
 - Bank BCA menerima notifikasi untuk menambahkan saldo ke rekening Siti
 
 ### 1.3 Pembelian Produk Digital (Token Listrik)
 
 **Skenario:**
-- Bank menyediakan produk token listrik dengan ID 1, harga 0.1 ETH
+- Bank menyediakan produk token listrik dengan ID 1, harga Rp 50.000
 - Budi ingin membeli token listrik menggunakan saldo rekeningnya
 
 **Implementasi:**
@@ -77,7 +77,7 @@ transferExternal(
 addProduct(
     1,                    // ID produk
     "Token Listrik 20kWh", // Nama produk
-    0.1 ether,            // Harga
+    50000,                // Harga dalam Rupiah
     "Token listrik untuk 20kWh" // Deskripsi
 )
 
@@ -89,29 +89,29 @@ purchaseProduct(
 ```
 
 **Hasil:**
-- Saldo Budi berkurang 0.1 ETH
+- Saldo Budi berkurang Rp 50.000
 - Transaksi pembelian tercatat di blockchain
 - Token listrik dapat dikirim ke alamat email atau nomor telepon Budi
 
 ### 1.4 Deposit dan Withdrawal
 
 **Skenario:**
-- Budi ingin deposit 2 ETH ke rekeningnya
-- Setelah itu, Budi ingin menarik 0.5 ETH
+- Budi ingin deposit Rp 2.000.000 ke rekeningnya
+- Setelah itu, Budi ingin menarik Rp 500.000
 
 **Implementasi:**
 ```solidity
 // Deposit
-deposit("1234567890") // Mengirim 2 ETH bersama transaksi
+deposit("1234567890", 2000000) // Deposit Rp 2.000.000
 
 // Withdrawal
-withdraw("1234567890", 0.5 ether)
+withdraw("1234567890", 500000)  // Tarik Rp 500.000
 ```
 
 **Hasil:**
-- Saldo Budi bertambah 2 ETH setelah deposit
-- Saldo Budi berkurang 0.5 ETH setelah withdrawal
-- ETH dikirim kembali ke wallet Budi
+- Saldo Budi bertambah Rp 2.000.000 setelah deposit
+- Saldo Budi berkurang Rp 500.000 setelah withdrawal
+- Uang dikirim kembali ke rekening Budi
 
 ---
 
@@ -247,7 +247,7 @@ Smart contract menghilangkan kebutuhan pihak ketiga:
 ### 3.4 Sebagai Penyimpan Aset Digital (Digital Asset Custodian)
 
 Smart contract mengelola aset digital:
-- Menyimpan saldo dalam bentuk cryptocurrency (ETH)
+- Menyimpan saldo dalam bentuk Rupiah (IDR)
 - Mengelola produk digital seperti token listrik
 - Memastikan keamanan aset dengan enkripsi blockchain
 
@@ -445,7 +445,7 @@ npm run dev
    - Network Name: Hardhat Local
    - RPC URL: http://127.0.0.1:8545
    - Chain ID: 1337
-   - Currency Symbol: ETH
+   - Currency Symbol: IDR (untuk demo, tetap menggunakan network localhost)
 
 4. Import account dari Hardhat:
    - Ketika menjalankan `npm run node`, Hardhat akan menampilkan private keys
@@ -485,7 +485,7 @@ Sebelum menggunakan aplikasi, Anda dapat membaca penjelasan lengkap tentang smar
 
 1. Pastikan sudah memiliki rekening
 2. Masukkan nomor rekening Anda
-3. Masukkan jumlah ETH yang ingin di-deposit
+3. Masukkan jumlah Rupiah yang ingin di-deposit
 4. Klik "Deposit"
 5. Konfirmasi transaksi di MetaMask
 
@@ -549,10 +549,10 @@ angela-smart-contract/
 ## Teknologi yang Digunakan
 
 - **Solidity**: Bahasa pemrograman untuk smart contract
-- **Hardhat**: Development framework untuk Ethereum
+- **Hardhat**: Development framework untuk smart contract (untuk development smart contract)
 - **React**: Framework untuk frontend
 - **Vite**: Build tool untuk React
-- **Ethers.js**: Library untuk berinteraksi dengan blockchain
+- **React**: Framework untuk frontend (aplikasi menggunakan mode demo tanpa blockchain)
 - **OpenZeppelin**: Library untuk smart contract yang aman
 
 ---
@@ -582,7 +582,7 @@ Aplikasi ini sudah dikonfigurasi untuk di-deploy ke GitHub Pages. Lihat **[DEPLO
 
 1. **Ini adalah prototype/demo**: Smart contract ini dibuat untuk tujuan edukasi dan demonstrasi. Untuk implementasi produksi, diperlukan audit keamanan yang lebih ketat.
 
-2. **Gas fees**: Setiap transaksi memerlukan biaya gas. Pastikan wallet memiliki cukup ETH.
+2. **Mode Demo**: Aplikasi ini berjalan dalam mode simulasi tanpa memerlukan blockchain atau wallet. Semua transaksi disimulasikan menggunakan state management lokal.
 
 3. **Network**: Pastikan menggunakan network yang benar (localhost untuk development, testnet untuk testing, mainnet untuk produksi).
 

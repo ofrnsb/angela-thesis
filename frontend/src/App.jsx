@@ -7,16 +7,16 @@ const DEMO_MODE = true;
 
 // Data dummy untuk simulasi
 const initialAccounts = {
-  '1234567890': { accountNumber: '1234567890', accountName: 'Budi Santoso', balance: 10.5, bank: 'BM' },
-  '0987654321': { accountNumber: '0987654321', accountName: 'Siti Nurhaliza', balance: 5.0, bank: 'BM' },
-  '1111111111': { accountNumber: '1111111111', accountName: 'Ahmad Yani', balance: 8.0, bank: 'BCA' },
+  '1234567890': { accountNumber: '1234567890', accountName: 'Budi Santoso', balance: 10000000, bank: 'BM' },
+  '0987654321': { accountNumber: '0987654321', accountName: 'Siti Nurhaliza', balance: 5000000, bank: 'BM' },
+  '1111111111': { accountNumber: '1111111111', accountName: 'Ahmad Yani', balance: 8000000, bank: 'BCA' },
 };
 
 const initialProducts = [
-  { id: '1', name: 'Token Listrik 20kWh', price: 0.1, description: 'Token listrik untuk 20kWh - PLN' },
-  { id: '2', name: 'Token Listrik 50kWh', price: 0.25, description: 'Token listrik untuk 50kWh - PLN' },
-  { id: '3', name: 'Pulsa 50.000', price: 0.05, description: 'Pulsa seluler 50.000 untuk semua operator' },
-  { id: '4', name: 'Paket Data 10GB', price: 0.15, description: 'Paket data internet 10GB - 30 hari' },
+  { id: '1', name: 'Token Listrik 20kWh', price: 50000, description: 'Token listrik untuk 20kWh - PLN' },
+  { id: '2', name: 'Token Listrik 50kWh', price: 125000, description: 'Token listrik untuk 50kWh - PLN' },
+  { id: '3', name: 'Pulsa 50.000', price: 50000, description: 'Pulsa seluler 50.000 untuk semua operator' },
+  { id: '4', name: 'Paket Data 10GB', price: 75000, description: 'Paket data internet 10GB - 30 hari' },
 ];
 
 function App() {
@@ -56,7 +56,7 @@ function App() {
 
   useEffect(() => {
     if (userAccountNumber && accounts[userAccountNumber]) {
-      setBalance(accounts[userAccountNumber].balance.toFixed(4));
+      setBalance(accounts[userAccountNumber].balance.toString());
       setUserAccountName(accounts[userAccountNumber].accountName);
     } else {
       setBalance('0');
@@ -112,7 +112,7 @@ function App() {
     const updatedAccounts = { ...accounts };
     updatedAccounts[userAccountNumber].balance += amount;
     setAccounts(updatedAccounts);
-    showAlert('success', `Deposit ${depositAmount} ETH berhasil!`);
+    showAlert('success', `Deposit Rp ${parseFloat(depositAmount).toLocaleString('id-ID')} berhasil!`);
     setDepositAmount('');
   };
 
@@ -141,7 +141,7 @@ function App() {
     const updatedAccounts = { ...accounts };
     updatedAccounts[userAccountNumber].balance -= amount;
     setAccounts(updatedAccounts);
-    showAlert('success', `Penarikan ${withdrawAmount} ETH berhasil!`);
+    showAlert('success', `Penarikan Rp ${parseFloat(withdrawAmount).toLocaleString('id-ID')} berhasil!`);
     setWithdrawAmount('');
   };
 
@@ -181,7 +181,7 @@ function App() {
     updatedAccounts[userAccountNumber].balance -= amount;
     updatedAccounts[transferForm.toAccount].balance += amount;
     setAccounts(updatedAccounts);
-    showAlert('success', `Transfer ${transferForm.amount} ETH berhasil!`);
+    showAlert('success', `Transfer Rp ${parseFloat(transferForm.amount).toLocaleString('id-ID')} berhasil!`);
     setTransferForm({ toAccount: '', amount: '', description: '' });
   };
 
@@ -225,7 +225,7 @@ function App() {
     }
     
     setAccounts(updatedAccounts);
-    showAlert('success', `Transfer antar bank ${externalTransferForm.amount} ETH berhasil!`);
+    showAlert('success', `Transfer antar bank Rp ${parseFloat(externalTransferForm.amount).toLocaleString('id-ID')} berhasil!`);
     setExternalTransferForm({ toBankCode: 'BCA', toAccount: '', amount: '', description: '' });
   };
 
@@ -361,12 +361,12 @@ function App() {
             <div className="account-info">
               <p><strong>Nomor Rekening:</strong> {userAccountNumber}</p>
               <p><strong>Nama:</strong> {userAccountName || accounts[userAccountNumber]?.accountName || '-'}</p>
-              <p className="balance"><strong>Saldo:</strong> {balance} ETH</p>
+              <p className="balance"><strong>Saldo:</strong> Rp {parseFloat(balance || 0).toLocaleString('id-ID')}</p>
             </div>
 
             <h3>Deposit</h3>
             <div className="form-group">
-              <label>Jumlah (ETH)</label>
+              <label>Jumlah (Rupiah)</label>
               <input
                 type="number"
                 value={depositAmount}
@@ -379,7 +379,7 @@ function App() {
 
             <h3 style={{ marginTop: '30px' }}>Penarikan</h3>
             <div className="form-group">
-              <label>Jumlah (ETH)</label>
+              <label>Jumlah (Rupiah)</label>
               <input
                 type="number"
                 value={withdrawAmount}
@@ -421,8 +421,8 @@ function App() {
               type="number"
               value={transferForm.amount}
               onChange={(e) => setTransferForm({ ...transferForm, amount: e.target.value })}
-              placeholder="0.0"
-              step="0.001"
+              placeholder="0"
+              step="1000"
             />
           </div>
           <div className="form-group">
@@ -473,8 +473,8 @@ function App() {
               type="number"
               value={externalTransferForm.amount}
               onChange={(e) => setExternalTransferForm({ ...externalTransferForm, amount: e.target.value })}
-              placeholder="0.0"
-              step="0.001"
+              placeholder="0"
+              step="1000"
             />
           </div>
           <div className="form-group">
@@ -499,7 +499,7 @@ function App() {
               <div key={product.id} className="product-card">
                 <h4>{product.name}</h4>
                 <p>{product.description}</p>
-                <p className="product-price">{product.price} ETH</p>
+                <p className="product-price">Rp {product.price.toLocaleString('id-ID')}</p>
                 <button onClick={() => purchaseProduct(product.id)}>
                   Beli Sekarang
                 </button>
